@@ -47,13 +47,13 @@
       "name": "std_scale_columns",
       "type": "str",
       "description": "モデルの訓練時に標準化スケーリングしているカラム名。評価に用いるデータセットに対して標準化を行っている場合は、空欄。入力例：カラムA, カラムB",
-      "default_val": ""
+      "default_val": " "
     },
     {
       "name": "norm_scale_columns",
       "type": "str",
       "description": "モデルの訓練時に正規化スケーリングしているカラム名。評価に用いるデータセットに対して正規化を行っている場合は、空欄。入力例：カラムA, カラムB",
-      "default_val": ""
+      "default_val": " "
     }
   ],
   "report": {

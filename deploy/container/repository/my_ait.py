@@ -99,7 +99,7 @@ if not is_ait_launch:
     requirements_generator.add_package('scikit-learn', '1.6.1')
 
 
-# In[ ]:
+# In[5]:
 
 
 #########################################
@@ -113,7 +113,7 @@ if not is_ait_launch:
     get_ipython().system('pip install -r $requirements_path ')
 
 
-# In[ ]:
+# In[6]:
 
 
 #########################################
@@ -136,7 +136,7 @@ from pathlib import Path
 from os import makedirs, path
 
 
-# In[ ]:
+# In[7]:
 
 
 #########################################
@@ -155,7 +155,7 @@ from ait_sdk.develop.annotation import measures, resources, downloads, ait_main 
 # must use modules
 
 
-# In[ ]:
+# In[8]:
 
 
 #########################################
@@ -203,13 +203,13 @@ if not is_ait_launch:
         name='std_scale_columns', 
         type_='str', 
         description='モデルの訓練時に標準化スケーリングしているカラム名。評価に用いるデータセットに対して標準化を行っている場合は、空欄。入力例：カラムA, カラムB', 
-        default_val=''
+        default_val=' '
     )
     manifest_genenerator.add_ait_parameters(
         name='norm_scale_columns', 
         type_='str', 
         description='モデルの訓練時に正規化スケーリングしているカラム名。評価に用いるデータセットに対して正規化を行っている場合は、空欄。入力例：カラムA, カラムB', 
-        default_val=''
+        default_val=' '
     )
     manifest_genenerator.add_ait_measures(
         name='RMSE', 
@@ -245,7 +245,7 @@ if not is_ait_launch:
     manifest_path = manifest_genenerator.write()
 
 
-# In[ ]:
+# In[9]:
 
 
 #########################################
@@ -266,7 +266,7 @@ if not is_ait_launch:
     input_generator.write()
 
 
-# In[ ]:
+# In[10]:
 
 
 #########################################
@@ -297,7 +297,7 @@ ait_manifest.read_json(path_helper.get_manifest_file_path())
 ### do not edit cell
 
 
-# In[ ]:
+# In[11]:
 
 
 #########################################
@@ -310,7 +310,7 @@ def measure_rmse(rmse):
     return float(str(rmse))
 
 
-# In[ ]:
+# In[12]:
 
 
 #########################################
@@ -323,7 +323,7 @@ def measure_mae(mae):
     return float(str(mae))
 
 
-# In[ ]:
+# In[13]:
 
 
 #########################################
@@ -339,7 +339,7 @@ def save_index_matrix(csv_data, file_path: str=None) -> None:
     return file_path
 
 
-# In[ ]:
+# In[14]:
 
 
 #########################################
@@ -362,7 +362,7 @@ def save_predicted_plot(Y, predict, file_path: str=None) -> None:
     return file_path
 
 
-# In[ ]:
+# In[15]:
 
 
 #########################################
@@ -377,7 +377,7 @@ def move_log(file_path: str=None) -> None:
     shutil.move(get_log_path(), file_path)
 
 
-# In[ ]:
+# In[16]:
 
 
 #########################################
@@ -406,15 +406,15 @@ def main() -> None:
     target_variables = [ait_input.get_method_param_value('target_variable')]
 
     # 正規化
-    std_scale_list = ait_input.get_method_param_value('std_scale_columns')
-    std_scale_list = std_scale_list.replace(" ","").split(",")
-    norm_scale_list = ait_input.get_method_param_value('norm_scale_columns')
-    norm_scale_list = norm_scale_list.replace(" ","").split(",")
+    std_scale_columns = ait_input.get_method_param_value('std_scale_columns')
+    std_scale_list = std_scale_columns.strip().split(",")
+    norm_scale_columns = ait_input.get_method_param_value('norm_scale_columns')
+    norm_scale_list = [ norm_scale_columns.strip().split(",")]
     std_scaler = StandardScaler()
     norm_scaler = MinMaxScaler()
-    if not ('0' in std_scale_list):
+    if not ('' in std_scale_list):
         test_dataset[std_scale_list] = std_scaler.fit_transform(test_dataset[std_scale_list])
-    if not ('0' in norm_scale_list):
+    if not ('' in norm_scale_list):
         test_dataset[norm_scale_list] = norm_scaler.fit_transform(test_dataset[norm_scale_list])
     
     # label抽出
@@ -454,7 +454,7 @@ def main() -> None:
     move_log()
 
 
-# In[ ]:
+# In[17]:
 
 
 #########################################
@@ -465,7 +465,7 @@ if __name__ == '__main__':
     main()
 
 
-# In[ ]:
+# In[18]:
 
 
 #########################################
@@ -476,7 +476,7 @@ ait_owner='AIST'
 ait_creation_year='2020'
 
 
-# In[ ]:
+# In[19]:
 
 
 #########################################
@@ -494,4 +494,10 @@ if not is_ait_launch:
     # output License.txt
     license_generator = LicenseGenerator()
     license_generator.write('../top_dir/LICENSE.txt', ait_creation_year, ait_owner)
+
+
+# In[ ]:
+
+
+
 

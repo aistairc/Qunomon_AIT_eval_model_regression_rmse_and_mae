@@ -20,7 +20,7 @@
     },
     {
       "Name": "norm_scale_columns",
-      "Value": "0"
+      "Value": " "
     }
   ],
   "testbed_mount_volume_path": "/usr/local/qai/mnt",
