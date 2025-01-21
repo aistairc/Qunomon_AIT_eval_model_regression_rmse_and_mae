@@ -200,15 +200,15 @@ if not is_ait_launch:
         default_val=''
     )
     manifest_genenerator.add_ait_parameters(
-        name='scaler_feature', 
+        name='std_scale_columns', 
         type_='str', 
-        description='モデルの訓練時の特徴量のスケーリング方法。標準化、正規化を入力。モデルの訓練時に特徴量のスケーリングを行っていない場合あるいは評価に用いるデータセットの特徴量に対して正規化・標準化を行っている場合は、空欄', 
+        description='モデルの訓練時に標準化スケーリングしているカラム名。評価に用いるデータセットに対して標準化を行っている場合は、空欄。入力例：カラムA, カラムB', 
         default_val=''
     )
     manifest_genenerator.add_ait_parameters(
-        name='scaler_target', 
+        name='norm_scale_columns', 
         type_='str', 
-        description='モデルの訓練時の目的変数のスケーリング方法。標準化、正規化を入力。モデルの訓練時に目的変数のスケーリングを行っていない場合あるいは評価に用いるデータセットの目的変数に対して正規化・標準化を行っている場合は、空欄', 
+        description='モデルの訓練時に正規化スケーリングしているカラム名。評価に用いるデータセットに対して正規化を行っている場合は、空欄。入力例：カラムA, カラムB', 
         default_val=''
     )
     manifest_genenerator.add_ait_measures(
@@ -261,10 +261,8 @@ if not is_ait_launch:
                                         value='dataset_house_price/rf_housing.csv')
     input_generator.set_ait_params(name='target_variable',
                                    value='median_house_value')
-    input_generator.set_ait_params(name='scaler_feature',
-                                   value='標準化')
-    input_generator.set_ait_params(name='scaler_target',
-                                   value='標準化')
+    input_generator.set_ait_params(name='std_scale_columns',
+                                   value='longitude,latitude,housing_median_age,total_rooms,total_bedrooms,population,households,median_income,median_house_value')
     input_generator.write()
 
 
@@ -407,42 +405,28 @@ def main() -> None:
     # 目的変数読み込み
     target_variables = [ait_input.get_method_param_value('target_variable')]
 
+    # 正規化
+    std_scale_list = ait_input.get_method_param_value('std_scale_columns')
+    std_scale_list = std_scale_list.replace(" ","").split(",")
+    norm_scale_list = ait_input.get_method_param_value('norm_scale_columns')
+    norm_scale_list = norm_scale_list.replace(" ","").split(",")
+    std_scaler = StandardScaler()
+    norm_scaler = MinMaxScaler()
+    if not ('0' in std_scale_list):
+        test_dataset[std_scale_list] = std_scaler.fit_transform(test_dataset[std_scale_list])
+    if not ('0' in norm_scale_list):
+        test_dataset[norm_scale_list] = norm_scaler.fit_transform(test_dataset[norm_scale_list])
+    
     # label抽出
     for t in target_variables:
         test_data_labels = test_dataset.pop(t)
         
-    scaler_x=ait_input.get_method_param_value('scaler_feature')
-    scaler_y=ait_input.get_method_param_value('scaler_target')
-    # 正規化
-    if scaler_x=='標準化':
-        scaler_x = StandardScaler()
-        scaler_test_data = scaler_x.fit_transform(test_dataset.values)
-        #データをPyTorchテンソルに変換
-        test_data = torch.tensor(scaler_test_data,dtype=torch.float32)
-    elif scaler_x=='正規化':
-        scaler_x = MinMaxScaler()
-        scaler_test_data = scaler_x.fit_transform(test_dataset.values)
-        #データをPyTorchテンソルに変換
-        test_data = torch.tensor(scaler_test_data,dtype=torch.float32)
-    else:
-        #データをPyTorchテンソルに変換
-        test_data = torch.tensor(test_dataset.values,dtype=torch.float32)
-        
-    if scaler_y == '標準化':
-        scaler_y = StandardScaler()
-        scaler_Y = scaler_y.fit_transform(np.array(test_data_labels).reshape(-1,1))
-        #データをPyTorchテンソルに変換
-        Y = torch.tensor(scaler_Y,dtype=torch.float32).view(-1,1)
-        Y = Y.numpy()
-    elif scaler_y=='正規化':
-        scaler_y = MinMaxScaler()
-        scaler_Y = scaler_y.fit_transform(np.array(test_data_labels).reshape(-1,1))
-        #データをPyTorchテンソルに変換
-        Y = torch.tensor(scaler_Y,dtype=torch.float32).view(-1,1)
-        Y = Y.numpy()
-    else:
-        Y = torch.tensor(test_data_labels.values,dtype=torch.float32).view(-1,1)
-        Y = Y.numpy()
+    #特徴量とターゲット変数に分けて、データをPyTorchテンソルに変換
+    test_data = torch.tensor(test_dataset.values,dtype=torch.float32)
+    Y = torch.tensor(test_data_labels.values,dtype=torch.float32).view(-1,1)
+    #numpy配列に変換
+    Y = Y.numpy()
+
     # 予測値
     with torch.no_grad():
         predict = model(test_data)

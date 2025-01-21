@@ -15,12 +15,12 @@
       "Value": "median_house_value"
     },
     {
-      "Name": "scaler_feature",
-      "Value": "標準化"
+      "Name": "std_scale_columns",
+      "Value": "longitude,latitude,housing_median_age,total_rooms,total_bedrooms,population,households,median_income,median_house_value"
     },
     {
-      "Name": "scaler_target",
-      "Value": "標準化"
+      "Name": "norm_scale_columns",
+      "Value": "0"
     }
   ],
   "testbed_mount_volume_path": "/usr/local/qai/mnt",

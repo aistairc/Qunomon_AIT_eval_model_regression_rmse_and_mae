@@ -4,8 +4,8 @@
         "Version": "0.3"
     },
     "ExecuteInfo": {
-        "StartDateTime": "2025-01-21T11:49:34+0900",
-        "EndDateTime": "2025-01-21T11:49:36+0900",
+        "StartDateTime": "2025-01-21T16:07:06+0900",
+        "EndDateTime": "2025-01-21T16:07:08+0900",
         "MachineInfo": {
             "cpu_brand": "11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz",
             "cpu_arch": "X86_64",
@@ -18,11 +18,11 @@
         "Measures": [
             {
                 "Name": "RMSE",
-                "Value": "1.607196481506423"
+                "Value": "0.400870784254421"
             },
             {
                 "Name": "MAE",
-                "Value": "0.6643421053886414"
+                "Value": "0.27011117339134216"
             }
         ],
         "Resources": [
