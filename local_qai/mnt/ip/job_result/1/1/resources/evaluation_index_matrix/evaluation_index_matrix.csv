@@ -1,0 +1,4 @@
+Metric,Value
+RMSE(Root Mean Square Error),0.400870784254421
+MAE(Mean Absolute Error),0.27011117339134216
+MSE(Mean Squared Error),0.16069738566875458

@@ -1,0 +1,45 @@
+{
+    "AIT": {
+        "Name": "eval_model_regression_rmse_and_mae",
+        "Version": "0.3"
+    },
+    "ExecuteInfo": {
+        "StartDateTime": "2025-01-22T11:23:57+0900",
+        "EndDateTime": "2025-01-22T11:23:59+0900",
+        "MachineInfo": {
+            "cpu_brand": "11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz",
+            "cpu_arch": "X86_64",
+            "cpu_clocks": "2.3000 GHz",
+            "cpu_cores": "16",
+            "memory_capacity": "16773373952"
+        }
+    },
+    "Result": {
+        "Measures": [
+            {
+                "Name": "RMSE",
+                "Value": "0.400870784254421"
+            },
+            {
+                "Name": "MAE",
+                "Value": "0.27011117339134216"
+            }
+        ],
+        "Resources": [
+            {
+                "Name": "evaluation_index_matrix",
+                "Path": "/usr/local/qai/mnt/ip/job_result/1/1/resources/evaluation_index_matrix/evaluation_index_matrix.csv"
+            },
+            {
+                "Name": "observed_predicted_plot",
+                "Path": "/usr/local/qai/mnt/ip/job_result/1/1/resources/observed_predicted_plot/correlation_graph_of_predicted_and_measured_values.png"
+            }
+        ],
+        "Downloads": [
+            {
+                "Name": "Log",
+                "Path": "/usr/local/qai/mnt/ip/job_result/1/1/downloads/Log/ait.log"
+            }
+        ]
+    }
+}

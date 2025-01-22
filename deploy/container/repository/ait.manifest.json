@@ -1,0 +1,95 @@
+{
+  "name": "eval_model_regression_rmse_and_mae",
+  "description": "複数の説明変数と1つの目的変数で構築された重回帰分析のモデルのRMSE(Root Mean Square Error)とMAE(Mean Absolute Error)を計算する。RMSEとMAEはともに予測値と実際の値の差を利用して定められているため、値が低いほど品質が良いと言える。",
+  "source_repository": "https://github.com/aistairc/Qunomon_AIT_eval_model_regression_rmse_and_mae",
+  "version": "0.3",
+  "quality": "https://ait-hub.pj.aist.go.jp/ait-hub/api/0.0.1/qualityDimensions/機械学習品質マネジメントガイドライン第三版/C-1機械学習モデルの正確性",
+  "keywords": [
+    "regression",
+    "multiple regression analysis",
+    "rmse",
+    "mae"
+  ],
+  "references": [],
+  "licenses": [
+    "Apache License Version 2.0"
+  ],
+  "inventories": [
+    {
+      "name": "trained_model",
+      "type": "model",
+      "description": "torch.jit.save関数を使用しTorchScript形式で保存されたモデルデータ。入力層の要素数はdataset_for_verification inventoryのデータと一致させる必要がある。",
+      "requirement": {
+        "format": [
+          "pth"
+        ]
+      }
+    },
+    {
+      "name": "dataset_for_verification",
+      "type": "dataset",
+      "description": "評価に用いるデータセット。1行目に列名、2行目以降に値が記されたcsvファイル形式のデータ",
+      "requirement": {
+        "format": [
+          "csv"
+        ]
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "target_variable",
+      "type": "str",
+      "description": "目的変数の名前。",
+      "default_val": ""
+    },
+    {
+      "name": "std_scale_columns",
+      "type": "str",
+      "description": "モデルの訓練時に標準化スケーリングしているカラム名。評価に用いるデータセットに対して標準化を行っている場合は、空欄。入力例：カラムA, カラムB",
+      "default_val": " "
+    },
+    {
+      "name": "norm_scale_columns",
+      "type": "str",
+      "description": "モデルの訓練時に正規化スケーリングしているカラム名。評価に用いるデータセットに対して正規化を行っている場合は、空欄。入力例：カラムA, カラムB",
+      "default_val": " "
+    }
+  ],
+  "report": {
+    "measures": [
+      {
+        "name": "RMSE",
+        "type": "float",
+        "description": "二乗平均平方根誤差。0に近いほど、モデルの精度が高いといえる。MAEと比べて、大きい誤差に影響を受けやすい。",
+        "structure": "single",
+        "min": "0"
+      },
+      {
+        "name": "MAE",
+        "type": "float",
+        "description": "平均絶対誤差。0に近いほど、モデルの精度が高いといえる。RMSEと比べて、大きい誤差に影響を受けにくい。",
+        "structure": "single",
+        "min": "0"
+      }
+    ],
+    "resources": [
+      {
+        "name": "evaluation_index_matrix",
+        "type": "table",
+        "description": "RMSE, MAE, MSEの値が書かれたファイル。"
+      },
+      {
+        "name": "observed_predicted_plot",
+        "type": "picture",
+        "description": "横軸に実際の値、縦軸に予測の値をプロットしたグラフ。対角線上に多くのデータが存在するほど、予測は正確であることを示している。"
+      }
+    ]
+  },
+  "downloads": [
+    {
+      "name": "Log",
+      "description": "AITの実行ログ。"
+    }
+  ]
+}
