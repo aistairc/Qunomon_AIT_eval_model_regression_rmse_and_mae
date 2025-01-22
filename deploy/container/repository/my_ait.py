@@ -99,7 +99,7 @@ if not is_ait_launch:
     requirements_generator.add_package('scikit-learn', '1.6.1')
 
 
-# In[5]:
+# In[ ]:
 
 
 #########################################
@@ -113,7 +113,7 @@ if not is_ait_launch:
     get_ipython().system('pip install -r $requirements_path ')
 
 
-# In[6]:
+# In[ ]:
 
 
 #########################################
@@ -136,7 +136,7 @@ from pathlib import Path
 from os import makedirs, path
 
 
-# In[7]:
+# In[ ]:
 
 
 #########################################
@@ -155,7 +155,7 @@ from ait_sdk.develop.annotation import measures, resources, downloads, ait_main 
 # must use modules
 
 
-# In[8]:
+# In[ ]:
 
 
 #########################################
@@ -245,7 +245,7 @@ if not is_ait_launch:
     manifest_path = manifest_genenerator.write()
 
 
-# In[9]:
+# In[ ]:
 
 
 #########################################
@@ -266,7 +266,7 @@ if not is_ait_launch:
     input_generator.write()
 
 
-# In[10]:
+# In[ ]:
 
 
 #########################################
@@ -297,7 +297,7 @@ ait_manifest.read_json(path_helper.get_manifest_file_path())
 ### do not edit cell
 
 
-# In[11]:
+# In[ ]:
 
 
 #########################################
@@ -310,7 +310,7 @@ def measure_rmse(rmse):
     return float(str(rmse))
 
 
-# In[12]:
+# In[ ]:
 
 
 #########################################
@@ -323,7 +323,7 @@ def measure_mae(mae):
     return float(str(mae))
 
 
-# In[13]:
+# In[ ]:
 
 
 #########################################
@@ -339,7 +339,7 @@ def save_index_matrix(csv_data, file_path: str=None) -> None:
     return file_path
 
 
-# In[14]:
+# In[ ]:
 
 
 #########################################
@@ -362,7 +362,7 @@ def save_predicted_plot(Y, predict, file_path: str=None) -> None:
     return file_path
 
 
-# In[15]:
+# In[ ]:
 
 
 #########################################
@@ -377,7 +377,7 @@ def move_log(file_path: str=None) -> None:
     shutil.move(get_log_path(), file_path)
 
 
-# In[16]:
+# In[ ]:
 
 
 #########################################
@@ -386,7 +386,7 @@ def move_log(file_path: str=None) -> None:
 #########################################
 
 @log(logger)
-@ait_main(ait_output, path_helper)
+@ait_main(ait_output, path_helper,is_ait_launch)
 def main() -> None:
 
     # model読み込み
@@ -407,9 +407,9 @@ def main() -> None:
 
     # 正規化
     std_scale_columns = ait_input.get_method_param_value('std_scale_columns')
-    std_scale_list = std_scale_columns.strip().split(",")
+    std_scale_list = [ column_name.strip() for column_name in std_scale_columns.strip().split(",")]
     norm_scale_columns = ait_input.get_method_param_value('norm_scale_columns')
-    norm_scale_list = [ norm_scale_columns.strip().split(",")]
+    norm_scale_list = [ column_name.strip() for column_name in norm_scale_columns.strip().split(",")]
     std_scaler = StandardScaler()
     norm_scaler = MinMaxScaler()
     if not ('' in std_scale_list):
@@ -454,7 +454,7 @@ def main() -> None:
     move_log()
 
 
-# In[17]:
+# In[ ]:
 
 
 #########################################
@@ -465,7 +465,7 @@ if __name__ == '__main__':
     main()
 
 
-# In[18]:
+# In[ ]:
 
 
 #########################################
@@ -476,7 +476,7 @@ ait_owner='AIST'
 ait_creation_year='2020'
 
 
-# In[19]:
+# In[ ]:
 
 
 #########################################
@@ -494,10 +494,4 @@ if not is_ait_launch:
     # output License.txt
     license_generator = LicenseGenerator()
     license_generator.write('../top_dir/LICENSE.txt', ait_creation_year, ait_owner)
-
-
-# In[ ]:
-
-
-
 

@@ -4,14 +4,14 @@
         "Version": "0.3"
     },
     "ExecuteInfo": {
-        "StartDateTime": "2025-01-21T18:57:02+0900",
-        "EndDateTime": "2025-01-21T18:57:04+0900",
+        "StartDateTime": "2025-01-22T11:23:57+0900",
+        "EndDateTime": "2025-01-22T11:23:59+0900",
         "MachineInfo": {
             "cpu_brand": "11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz",
             "cpu_arch": "X86_64",
             "cpu_clocks": "2.3000 GHz",
             "cpu_cores": "16",
-            "memory_capacity": "16773378048"
+            "memory_capacity": "16773373952"
         }
     },
     "Result": {
